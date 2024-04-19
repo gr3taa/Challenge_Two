@@ -30,23 +30,23 @@ namespace algebra{
         private:
             using Index = array<size_t,2>
             map<Index, T> data;
-            size_t n_rows, n_cols;
-            bool compressed;
+            vector<size_t> I, II; // I is the first vector of indexes, II is the second one in case the matrix is compressed
+            vector<T> V; // V is the vector of the values of nnz elements in case the matrix is compressed
+            size_t n_rows, n_cols, nnz_elem;
+            bool compressed; 
             bool is_inbound(size_t i, size_t j) const;
 
         public:
-        Matrix(size_t r, size_t c): n_rows(r), n_cols(c){};
-        void resize(size_t i, size_t j);
-        void compress();
-        void uncompress();
-        /// @brief 
-        /// @return 
-        bool is_compressed() const;
-        T operator()(size_t i, size_t j) const; 
-        T operator()(size_t i, size_t j, const T & value); 
-        
-        template<typename U>
-        friend vector<U> operator*(const vector<T> & vec); //const Matrix<U, Order>& mat
+            Matrix(size_t r, size_t c): n_rows(r), n_cols(c){};
+            void resize(size_t i, size_t j);
+            void compress();
+            void uncompress(); 
+            bool is_compressed() const;
+            T operator()(size_t i, size_t j) const; 
+            T operator()(size_t i, size_t j, const T & value); 
+            
+            template<typename U>
+            friend vector<U> operator*(const vector<T> & vec); //const Matrix<U, Order>& mat
 
     };
 
