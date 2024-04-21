@@ -15,6 +15,7 @@ bool Matrix<T,order>::is_inbound(size_t i, size_t j) const{
     return i < n_rows && j < n_cols;
 }
 
+//TOREview
 /*!
  * @brief resizing the matrix.
  * @tparam T is the type of elements.
@@ -26,7 +27,31 @@ template<typename T, StorageOrder order>
 void Matrix<T,order>::resize(size_t i, size_t j){
     if(i < n_rows || j < n_cols){
         if(!is_compressed){
-
+            for(auto it = data.begin(); it != data.end();){
+                if(it->first[0] >= i || it->first[1] >= j){
+                    it = data.erase(it);
+                } else{
+                    ++it;
+                }
+            }
+        } else{
+            for(size_t k = 0; k < nnz_elem; ++k){
+                if(II[k] >= i || I[k] >= j){
+                    II.erase(II.begin() + k);
+                    V.erase(V.begin() + k);
+                    --k;
+                    --nnz_elem;
+                }
+            }
+            I.clear();
+            I.push_back(0);
+            size_t x = -1;
+            for(size_t k = 0; k < nnz_elem; ++k){
+                if(II[k] > x){
+                    I.push_back(k);
+                    ++x;
+                }
+            }
         }
     }
     //TODO: eliminare gli elementi out of range
@@ -166,8 +191,24 @@ T Matrix<T,order>::operator()(size_t i, size_t j) const{
             return it->second;
         else
             return 0;
+    }else{
+        if(order == "Row_wise"){
+            for(size_t k = I[i]; k < I[i+1]; ++k){
+                if(II[k] == j){
+                    return V[k];
+                }
+            }
+        } else if(order == "Column_wise"){
+            for(size_t k = I[j]; k < I[j+1]; ++k){
+                if(II[k] == i){
+                    return V[k];
+                }
+            }
+        } else{
+            cerr<<"Invalid Storage Order"<<endl;
+            exit(1);
+        }
     }
-//TODO: compressed case
 }
 
 
@@ -180,8 +221,23 @@ T Matrix<T,order>::operator()(size_t i, size_t j) const{
  * @return 
  */
 template<typename T, StorageOrder order>
-T Matrix<T,order>::operator()(size_t i, size_t j, const T & value){
-    
+T Matrix<T,order>::operator()(size_t i, size_t j){
+    if(!is_inbound(i,j)){
+        cerr<<"The indexes are not in the range of the matrix"<<endl;
+        exit(1);
+    }
+    if(!is_compressed()){
+        Index ij = {i,j};
+        if(if data.find(ij)!= data.end()){
+            return data[ij];
+        } else{
+            data[ij] = 0;
+            return 0;
+        }
+    }else{
+        cerr<<"The matrix is compressed"<<endl;
+        exit(1);
+    }
 }
 
 
