@@ -100,30 +100,6 @@ namespace algebra{
     };
 
     /*!
-    * @brief this function computes the one or the infinity or the frobenius norm according to the template value.
-    * @tparam T is the type of elements.
-    * @tparam order is the storage order of the matrix.
-    * @tparam n is the type of norm.
-    * @param mat the matrix of which we want to calculate the norm.
-    * @return the norm.
-    */
-    template<typename T, StorageOrder order, Norm n>
-    T norm(const Matrix<T,order> & mat){
-        T res = 0;
-        if(n == Norm::One){
-            res = norm_one<T,order>(mat);
-        } else if(n == Norm::Infinity){
-            res = norm_infinity<T,order>(mat);
-        } else if(n == Norm::Frobenius){
-            res = norm_frobenius<T,order>(mat);
-        } else{
-            cerr<<"Error: Norm not recognized"<<endl;
-            exit(1);
-        }
-        return res;
-    }
-
-    /*!
     * @brief this function computes the one norm.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -161,6 +137,7 @@ namespace algebra{
             cerr<<"Error: Storage order not recognized"<<endl;
             exit(1);
         }
+        cout<<"The one norm is: "<<res<<endl;
         return res;
     }
     
@@ -203,6 +180,7 @@ namespace algebra{
             cerr<<"Error: Storage order not recognized"<<endl;
             exit(1);
         }
+        cout<<"The infinity norm is: "<<res<<endl;
         return res;
     }
 
@@ -227,6 +205,31 @@ namespace algebra{
                 res += pow(mat.V[k],2);
             }
         }
+        cout<<"The Frobenius norm is: "<<sqrt(res)<<endl;
         return sqrt(res);
+    }
+
+    /*!
+    * @brief this function computes the one or the infinity or the frobenius norm according to the template value.
+    * @tparam T is the type of elements.
+    * @tparam order is the storage order of the matrix.
+    * @tparam n is the type of norm.
+    * @param mat the matrix of which we want to calculate the norm.
+    * @return the norm.
+    */
+    template<typename T, StorageOrder order, Norm n>
+    T norm(const Matrix<T,order> & mat){
+        T res = 0;
+        if(n == Norm::One){
+            res = norm_one<T,order>(mat);
+        } else if(n == Norm::Infinity){
+            res = norm_infinity<T,order>(mat);
+        } else if(n == Norm::Frobenius){
+            res = norm_frobenius<T,order>(mat);
+        } else{
+            cerr<<"Error: Norm not recognized"<<endl;
+            exit(1);
+        }
+        return res;
     }
 }

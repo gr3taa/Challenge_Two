@@ -1,20 +1,33 @@
 CC = g++
 CFLAGS = -std=c++20 -Wall -g
+SRC_DIR = src
+OBJ_DIR = obj
+BIN_DIR = bin
 
-SRCS = src/main.cpp src/matrix.cpp 
-HDRS = src/matrix.hpp src/helper.hpp
+# Lista dei file oggetto
+OBJECTS = $(OBJ_DIR)/main.o $(OBJ_DIR)/matrix.o
 
-OBJS = $(SRCS:.cpp=.o) 
+# Nome del programma finale
+TARGET = $(BIN_DIR)/myprogram
 
-TARGET = program
+all: $(TARGET)
 
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET) 
+$(TARGET): $(OBJECTS)
+	@mkdir -p $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS)
 
-.PHONY: clean
+# Compila il file main.cpp
+$(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp $(SRC_DIR)/helper.hpp $(SRC_DIR)/matrix.hpp $(SRC_DIR)/matrix.cpp | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+# Compila il file matrix.cpp
+$(OBJ_DIR)/matrix.o: $(SRC_DIR)/matrix.cpp $(SRC_DIR)/matrix.hpp | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
 
 clean:
-	rm -f $(TARGET) $(OBJS)
+	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
-src/%.o: %.cpp $(HDRS)
-	$(CC) $(CFLAGS) -c $< -o $@
+.PHONY: all clean
