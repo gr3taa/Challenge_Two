@@ -240,6 +240,44 @@ T Matrix<T,order>::operator()(size_t i, size_t j){
     }
 }
 
+/*!
+* @brief this function reads the matrix written in matrix market format.
+* @tparam T is the type of elements.
+* @tparam order is the storage order of the matrix.
+* @param filename is the name of the file containing the matrix.
+* @return the matrix.
+*/
+template<typename T, StorageOrder order>
+Matrix<T,order> Matrix<T,order>::read_matrix(const string & filename) const{
+    ifstream file(filename);
+    if(!file){
+        cerr<<"Error: file not found"<<endl;
+        exit(1);
+    }
+    string line;
+    getline(file,line);
+    if(line != "%%MatrixMarket matrix coordinate real general"){
+        cerr<<"Error: file not in Matrix Market format"<<endl;
+        exit(1);
+    }
+    while(getline(file,line)){
+        if(line[0] != '%'){
+            break;
+        }
+    }
+    istringstream iss(line);
+    size_t n_rows, n_cols, nnz_elem;
+    iss>>n_rows>>n_cols>>nnz_elem;
+    Matrix<T,order> mat(n_rows,n_cols);
+    for(size_t k = 0; k < nnz_elem; ++k){
+        size_t i,j;
+        T val;
+        file>>i>>j>>val;
+        mat(i,j) = val;
+    }
+    
+    return mat;
+}
 
 
 

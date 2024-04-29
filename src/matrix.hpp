@@ -6,7 +6,8 @@
 #include<vector>
 #include<array>
 #include<map>
-#include<Eigen/Dense>
+#include <stdio.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -44,12 +45,21 @@ namespace algebra{
             bool is_compressed() const;
             T operator()(size_t i, size_t j) const; 
             T operator()(size_t i, size_t j); 
-            
-            template<typename T, StorageOrder order>
-            friend vector<T> operator*(const Matrix<T,order> & mat, const vector<T> & vec); //const Matrix<U, Order>& mat
+            Matrix<T,ord> read_matrix(const string & filename) const;
 
+            template<typename T, StorageOrder order>
+            friend vector<T> operator*(const Matrix<T,order> & mat, const vector<T> & vec);      
+            
     };
 
+    /*!
+    * @brief this function does the matrix-vector product.
+    * @tparam T is the type of elements.
+    * @tparam order is the storage order of the matrix.
+    * @param mat is the matrix that we want to multiply.
+    * @param vec is the vector that we want to multiply.
+    * @return the result of the matrix-vector product.
+    */
     template<typename T, StorageOrder order>
     vector<T> operator*(const Matrix<T,order> & mat, const vector<T> & vec){
         vector<T> res(mat.n_rows);
