@@ -44,58 +44,20 @@ namespace algebra{
             void uncompress(); 
             bool is_compressed() const;
             T operator()(size_t i, size_t j) const; 
-            T operator()(size_t i, size_t j); 
-            Matrix<T,ord> read_matrix(const string & filename) const;
+            T& operator()(size_t i, size_t j); 
+            size_t get_n_rows() const;
+            size_t get_n_cols() const;
+            size_t get_nnz() const;
 
-            template<typename T, StorageOrder order>
-            friend vector<T> operator*(const Matrix<T,order> & mat, const vector<T> & vec);      
+            template<typename U, StorageOrder order>
+            friend vector<U> operator*(const Matrix<U,order> & mat, const vector<U> & vec);     
+
+            template<typename U, StorageOrder order>
+            friend Matrix<U,order> read_matrix(const string & filename); 
             
     };
 
-    /*!
-    * @brief this function does the matrix-vector product.
-    * @tparam T is the type of elements.
-    * @tparam order is the storage order of the matrix.
-    * @param mat is the matrix that we want to multiply.
-    * @param vec is the vector that we want to multiply.
-    * @return the result of the matrix-vector product.
-    */
-    template<typename T, StorageOrder order>
-    vector<T> operator*(const Matrix<T,order> & mat, const vector<T> & vec){
-        vector<T> res(mat.n_rows);
-        if(mat.is_compressed()){
-            if(order == StorageOrder::Row_wise){
-                for(size_t i = 0; i < mat.n_rows; i++){
-                    T sum = 0;
-                    for(size_t j = mat.I[i]; j < mat.I[i+1]; j++){
-                        sum += mat.V[j]*vec[mat.II[j]];
-                    }
-                    res[i] = sum;
-                }
-            }else if(order == StorageOrder::Column_wise){
-                for(size_t j = 0; j < mat.n_cols; j++){
-                    T sum = 0;
-                    for(size_t i = mat.I[j]; i < mat.I[j+1]; i++){
-                        sum += mat.V[i]*vec[mat.II[i]];
-                    }
-                    res[j] = sum;
-                }
-            } else{
-                cerr<<"Error: Storage order not recognized"<<endl;
-                exit(1);
-            }
-        } else{
-            for(size_t i = 0; i < mat.n_rows; i++){
-                T sum = 0;
-                for(size_t j = 0; j < mat.n_cols; j++){
-                    sum += mat(i,j)*vec[j];
-                }
-                res[i] = sum;
-            }
-        }
-        return res;
-    
-    }
+
 }
 
 
