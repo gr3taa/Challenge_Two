@@ -1,33 +1,24 @@
 CC = g++
-CFLAGS = -std=c++20 -Wall -g
-SRC_DIR = src
-OBJ_DIR = obj
-BIN_DIR = bin
+CXXFLAGS = -std=c++20 -Wall 
 
-# Lista dei file oggetto
-OBJECTS = $(OBJ_DIR)/main.o $(OBJ_DIR)/matrix.o
+DOXYFILE=../../pacs-examples/Examples/DoxyfileCommon
+SRCS = src/main.cpp src/matrix.cpp 
+HDRS = src/matrix.hpp
 
-# Nome del programma finale
-TARGET = $(BIN_DIR)/myprogram
+OBJS = $(SRCS:.cpp=.o) 
 
-all: $(TARGET)
+TARGET = program
 
-$(TARGET): $(OBJECTS)
-	@mkdir -p $(BIN_DIR)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS)
+src/%.o: %.cpp $(HDRS)
+	$(CC) $(CXXFLAGS) -c $< -o $@
 
-# Compila il file main.cpp
-$(OBJ_DIR)/main.o: $(SRC_DIR)/main.cpp $(SRC_DIR)/helper.hpp $(SRC_DIR)/matrix.hpp $(SRC_DIR)/matrix.cpp | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c -o $@ $<
+$(TARGET): $(OBJS)
+	$(CC) $(CXXFLAGS) $(OBJS) -o $(TARGET)
 
-# Compila il file matrix.cpp
-$(OBJ_DIR)/matrix.o: $(SRC_DIR)/matrix.cpp $(SRC_DIR)/matrix.hpp | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c -o $@ $<
-
-$(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
+.PHONY: clean
 
 clean:
-	rm -rf $(OBJ_DIR) $(BIN_DIR)
+	-rm -f $(TARGET) $(OBJS)
 
-.PHONY: all clean
+doc:
+	doxygen $(DOXYFILE)
