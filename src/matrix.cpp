@@ -5,6 +5,7 @@ namespace algebra{
     template class Matrix<double, algebra::StorageOrder::Row_wise>;
     template class Matrix<double, algebra::StorageOrder::Column_wise>;
 
+
     /*!
     * @brief Check if i and j are whitin the range of the matrix.
     * @tparam T is the type of elements.
@@ -95,14 +96,10 @@ namespace algebra{
             cerr<<"The matrix is already compressed"<<endl;
             exit(1);
         }
-        size_t a, b, c;
+        size_t c;
         if(order == StorageOrder::Row_wise){
-            a = 1;
-            b = 0;
             c = n_rows;
         } else if(order == StorageOrder::Column_wise){
-            a = 0;
-            b = 1;
             c = n_cols;
         } else{
             cerr<<"Invalid Storage Order"<<endl;
@@ -111,16 +108,20 @@ namespace algebra{
         II.resize(nnz_elem);
         I.resize(c + 1);
         V.resize(nnz_elem);
-        size_t x = -1, i = 0;
+        size_t x = 0, i = 0;
+        I[0] =0;
         for (auto it = data.begin(); it != data.end(); ++it){
-            V.push_back(it->second);
-            II.push_back(it->first[a]);
-            if(it->first[b]>x){
-                II.push_back(i);
+            
+            V[i] = it->second;
+            II[i] = it->first[1];
+            if(it->first[0]>x){
                 ++x;
+                I[x] = i ;
             }
             ++i;
-        }
+            
+        
+        } 
 /*
         for (size_t i = 0; i < nnz_elem; ++i){
             V.push_back(data[i].second);
@@ -130,7 +131,7 @@ namespace algebra{
                 ++x;
             }
         }*/
-        I.push_back(c+I[0]);
+        I[c] = nnz_elem;
         compressed = true;
         data.clear();
         
@@ -150,29 +151,30 @@ namespace algebra{
             cerr<<"The matrix is already uncompressed"<<endl;
             exit(1);
         }
-        /*vector<size_t> R,C;
+        vector<size_t> R,C;
         size_t t=0;
-        if(order == "Row_wise"){
+        if constexpr (order == StorageOrder::Row_wise){
             for(size_t k = 0; k < nnz_elem; ++k){
-            if(k>=I[k]){
-                ++t;
+                if(k == I[t+1]){
+                    ++t;
+                }
+                Index ij = {t,II[k]};
+                data[ij] = V[k];
             }
-            Index ij = {I[t],II[k]};
-            data[ij] = V[k];
-            }
-        }else if(order == "Column_wise"){
+        }else if constexpr(order == StorageOrder::Column_wise){
             for(size_t k = 0; k < nnz_elem; ++k){
-            if(k>=I[k]){
-                ++t;
+                if(k==I[t+1]){
+                    ++t;
+                }
+                Index ij = {II[k],t};
+                data[ij] = V[k];
             }
-            Index ij = {II[k],I[t]};
-            data[ij] = V[k];
-        }
+            cout<<data.size()<<endl;
         } else{
             cerr<<"Invalid Storage Order"<<endl;
             exit(1);
-        }*/
-        size_t t = 0;
+        }
+        /*size_t t = 0;
         for(size_t k = 0; k < nnz_elem; ++k){
             Index ij;
             if(k>=I[k]){
@@ -187,7 +189,7 @@ namespace algebra{
             exit(1);
             }
             data[ij] = V[k];
-            }
+            }*/
         I.clear();
         II.clear();
         V.clear();
@@ -210,7 +212,15 @@ namespace algebra{
             exit(1);
         }
         if(!is_compressed()){
-            Index ij = {i,j};
+            Index ij;
+            if(order == StorageOrder::Row_wise){
+                ij = {i,j};
+            } else if(order == StorageOrder::Column_wise){
+                ij = {j,i};
+            } else{
+                cerr<<"Invalid Storage Order"<<endl;
+                exit(1);
+            }
             auto it = data.find(ij);
             if(it!= data.end())
                 return it->second;
@@ -252,13 +262,24 @@ namespace algebra{
             exit(1);
         }
         if(!is_compressed()){
-            Index ij = {i,j};
+            Index ij;
+            if(order == StorageOrder::Row_wise){
+                ij = {i,j};
+            } else if(order == StorageOrder::Column_wise){
+                ij = {j,i};
+            } else{
+                cerr<<"Invalid Storage Order"<<endl;
+                exit(1);
+            }
+            ++nnz_elem;
             return data[ij];
+
         }else{
             cerr<<"The matrix is compressed"<<endl;
             exit(1);
         }
     }
+    
     /*!
     * @brief Get the number of rows of the matrix.
     * @tparam T is the type of elements.
@@ -290,6 +311,17 @@ namespace algebra{
     template<typename T, StorageOrder order>
     size_t Matrix<T,order>::get_nnz() const{
         return nnz_elem;
+    }
+
+    /*!
+    * @brief Set the number of non zero elements of the matrix.
+    * @tparam T is the type of elements.
+    * @tparam order is the storage order of the matrix.
+    * @param nnz is the number of non zero elements.
+    */ 
+    template<typename T, StorageOrder order>
+    void Matrix<T,order>::set_nnz(size_t nnz){
+        nnz_elem = nnz;
     }
 
     /*!
@@ -401,5 +433,99 @@ namespace algebra{
         return res;
     }
     
+    /*!
+    * @brief this function calculates the norm of the matrix.
+    * @tparam U is the type of elements.
+    * @tparam order is the storage order of the matrix.
+    * @tparam n is the type of norm.
+    * @param mat is the matrix that we want to calculate the norm.
+    * @return the norm of the matrix.
+    */
+    template<typename T, StorageOrder ord>
+    //template<Norm n>
+    T Matrix<T,ord>::norm(Norm n) const{
+        if(n == Norm::One){
+            return norm_one();
+        } else if(n == Norm::Infinity){
+            return norm_infinity();
+        } else if(n == Norm::Frobenius){
+            return norm_frobenius();
+        } else{
+            cerr<<"Error: Norm not recognized"<<endl;
+            exit(1);
+        }
+    }
+
+    template<typename T, StorageOrder order>
+    void Matrix<T,order>::print_matrix() const{
+        for (auto it = data.begin(); it != data.end(); ++it){
+            cout<<"("<<it->first[0]<<", "<< it->first[1]<<") = " <<it->second<<" "<< endl;
+        }
+    }
+
+    template<typename T, StorageOrder order>
+    void Matrix<T,order>::print_compressed_matrix() const {
+        if(order == StorageOrder::Row_wise){
+            for(size_t i = 0; i < n_rows; i++){
+                for(size_t j = I[i]; j < I[i+1]; j++){
+                    cout<<"("<<i<<", "<<II[j]<<") = "<<V[j]<<endl;
+                }
+            }
+        } else if(order == StorageOrder::Column_wise){
+            for(size_t j = 0; j < n_cols; j++){
+                for(size_t i = I[j]; i < I[j+1]; i++){
+                    cout<<"("<<II[i]<<", "<<j<<") = "<<V[i]<<endl;
+                }
+            }
+        } else{
+            cerr<<"Error: Storage order not recognized"<<endl;
+            exit(1);
+        }
+        for(size_t k = 0; k < nnz_elem; ++k){
+            cout<<V[k]<<" - "<<II[k]<<endl;
+            cout<<endl;
+        }
+        cout<<"I: "<<endl;
+        for(size_t k = 0; k < n_rows+1; ++k){
+            cout<<I[k]<<endl;
+        }   
+    }
+
+    /*!
+    * @brief this function reads the matrix written in matrix market format.
+    * @tparam T is the type of elements.
+    * @tparam order is the storage order of the matrix.
+    * @param filename is the name of the file containing the matrix.
+    * @return the matrix.
+    */
+    template<typename T, StorageOrder order>
+    void Matrix<T,order>::read_matrix(const string & filename) {
+        ifstream file(filename);
+        if(!file.is_open()){
+            cerr<<"Error: file not found"<<endl;
+            exit(1);
+        }
+        string line;
+        getline(file,line);
+        if(line != "%%MatrixMarket matrix coordinate real general"){
+            cerr<<"Error: file not in Matrix Market format"<<endl;
+            exit(1);
+        }
+        while(getline(file,line)){
+            if(line[0] != '%'){
+                break;
+            }
+        }
+        istringstream iss(line);
+        iss>>n_rows>>n_cols>>nnz_elem;
+        for(size_t k = 0; k < nnz_elem; ++k){
+            size_t i,j;
+            T val;
+            file>>i>>j>>val;
+            Index ij = {i,j};
+            data[ij] = val;
+        }
+        set_nnz(nnz_elem);
+    }
 
 }

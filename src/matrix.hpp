@@ -46,7 +46,7 @@ namespace algebra{
     class Matrix{
         private:
             map<Index, T> data;
-            vector<size_t> I, II; // I is the first vector of indexes, II is the second one in case the matrix is compressed
+            vector<size_t> I, II; // I is the inner vector of indexes, II is the outer one in case the matrix is compressed
             vector<T> V; // V is the vector of the values of nnz elements in case the matrix is compressed
             size_t n_rows, n_cols, nnz_elem=0;
             bool compressed; 
@@ -68,20 +68,23 @@ namespace algebra{
             size_t get_n_rows() const;
             size_t get_n_cols() const;
             size_t get_nnz() const;
+            void set_nnz(size_t nnz);
             T norm_one() const;
             T norm_infinity() const;
             T norm_frobenius() const;
+            //template<Norm n>
+            T norm(Norm n) const;
+            void print_matrix() const;
+            void print_compressed_matrix() const;
+            void read_matrix(const string & filename);
 
-            friend bool operator<(const Index & lhs, const Index & rhs);            
-            
-            template<typename U, StorageOrder order>
-            friend Matrix<U,order> read_matrix(const string & filename); 
+            friend bool operator<(const Index & lhs, const Index & rhs);       
 
             template<typename U, StorageOrder order>
             friend vector<U> operator*(const Matrix<U,order> & mat, const vector<U> & vec);     
-
+/*
             template<typename U, StorageOrder order, Norm n>
-            friend U norm(const Matrix<U,order> & mat);         
+            friend U norm(const Matrix<U,order> & mat);       */  
             
     };
 
@@ -104,46 +107,6 @@ namespace algebra{
             cerr<<"Error: Storage order not recognized"<<endl;
             exit(1);
         }
-    }
-
-    /*!
-    * @brief this function reads the matrix written in matrix market format.
-    * @tparam T is the type of elements.
-    * @tparam order is the storage order of the matrix.
-    * @param filename is the name of the file containing the matrix.
-    * @return the matrix.
-    */
-    template<typename T, StorageOrder order>
-    Matrix<T,order> read_matrix(const string & filename) {
-        ifstream file(filename);
-        if(!file.is_open()){
-            cerr<<"Error: file not found"<<endl;
-            exit(1);
-        }
-        string line;
-        getline(file,line);
-        if(line != "%%MatrixMarket matrix coordinate real general"){
-            cerr<<"Error: file not in Matrix Market format"<<endl;
-            exit(1);
-        }
-        while(getline(file,line)){
-            if(line[0] != '%'){
-                break;
-            }
-        }
-        istringstream iss(line);
-        size_t n_rows, n_cols, nnz_elem;
-        iss>>n_rows>>n_cols>>nnz_elem;
-        Matrix<T,order> mat(n_rows,n_cols);
-        
-        for(size_t k = 0; k < nnz_elem; ++k){
-            size_t i,j;
-            T val;
-            file>>i>>j>>val;
-            mat(i,j) = val;
-        }
-        
-        return mat;
     }
 
     /*!
@@ -197,7 +160,7 @@ namespace algebra{
     * @tparam n is the type of norm.
     * @param mat is the matrix that we want to calculate the norm.
     * @return the norm of the matrix.
-    */
+    *//*
     template<typename U, StorageOrder order, Norm n>
     U norm(const Matrix<U,order> & mat){
         if(n == Norm::One){
@@ -212,7 +175,7 @@ namespace algebra{
         }
     }
     
-
+*/
 
 
 

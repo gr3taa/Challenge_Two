@@ -18,12 +18,11 @@ this is the most efficient way to store the sparse matrix in terms of memory and
 it is possible to add a non zero elements through the call operator.
 
 In `matrix.hpp` there are also implemented some friend function:
-+ product function between a matrix and a vector
-+ read_matrix that read the matrix written in matrix market format.
-+ norm function that compute the one, infinity and Frobenius norm through the others function `norm_one`, `norm_infinity`,`norm_frobenius`.
++ product function between a matrix and a vector.
++ comparison operator.
 
 
-`chrono.hpp` allows to time the matrix-vector product.
+`chrono.hpp` allows to time the operations.
 
 `Insp_131.mtx` is the file that contains the sparse matrix.
 
