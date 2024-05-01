@@ -12,6 +12,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cmath>
+#include<numeric>
 
 using namespace std;
 
@@ -82,6 +83,10 @@ namespace algebra{
 
             template<typename U, StorageOrder order>
             friend vector<U> operator*(const Matrix<U,order> & mat, const vector<U> & vec);     
+
+            template<typename U, StorageOrder order>
+            friend Matrix<U,order> operator*(const Matrix<U,order> & matl, const Matrix<U,order> & matr);     
+
 /*
             template<typename U, StorageOrder order, Norm n>
             friend U norm(const Matrix<U,order> & mat);       */  
@@ -152,6 +157,27 @@ namespace algebra{
         }
         return res;
     }
+
+    template<typename U, StorageOrder order>
+    Matrix<U,order> operator*(const Matrix<U,order> & matl, const Matrix<U,order> & matr){
+        if(matl.get_n_cols() != matr.get_n_rows()){
+            cerr<<"Error: The number of columns of the left matrix must be equal to the number of rows of the right matrix"<<endl;
+            exit(1);
+        }
+        if(matl.is_compressed() != matr.is_compressed()){
+            cerr<<"Error: The matrices must have the same storage order"<<endl;
+            exit(1);
+        }
+        if(!matl.is_compressed()){
+            Matrix<U,order> res(matl.get_n_rows(), matr.get_n_cols());
+            for(size_t i = 0; i < matl.get_n_rows(); ++i)
+                for(size_t j = 0; j < matr.get_n_cols(); ++j)
+                    for(size_t k = 0; k < matr.get_n_rows(); ++k)
+                        res(i,j) += matl(i,k) * matr(k,j);
+            return res;
+        } 
+    }
+
 
     /*!
     * @brief this function calculates the norm of the matrix.
