@@ -158,6 +158,14 @@ namespace algebra{
         return res;
     }
 
+    /*!
+    * @brief this function does the matrix-matrix  product.
+    * @tparam T is the type of elements.
+    * @tparam order is the storage order of the matrix.
+    * @param mat is the matrix that we want to multiply.
+    * @param mat1 is the matrix that we want to multiply.
+    * @return the result of the matrix-matrix product.
+    */
     template<typename U, StorageOrder order>
     Matrix<U,order> operator*(const Matrix<U,order> & matl, const Matrix<U,order> & matr){
         if(matl.get_n_cols() != matr.get_n_rows()){
@@ -175,8 +183,40 @@ namespace algebra{
                     for(size_t k = 0; k < matr.get_n_rows(); ++k)
                         res(i,j) += matl(i,k) * matr(k,j);
             return res;
-        } 
-    }
+        } /*else if (order == StorageOrder::Row_wise){
+                    Matrix<U,order> res(matl.get_n_rows(),matr.get_n_cols());
+                    vector<U> vec(matr.get_n_rows());
+                    for(size_t j = 0; j < matr.get_n_cols(); ++j){
+                        // jth column of matr
+                        vector<U> vec = get_col(matr,j);
+                        for(size_t i = 0; i < matl.get_n_rows(); ++i){
+                            size_t row_starts = matl.I[i];
+                            res(i,j) = inner_product(vec.begin(), vec.end(), matl.V.cbegin() + row_starts, U(0));
+                        }   
+                    }
+                    return res;
+        }*/
+    }  
+/*
+    template<typename T, StorageOrder ord>
+    vector<T> get_col(const Matrix<T,ord> & mat, size_t j){
+        if(order == StorageOrder::Column_wise || !is.compress()){
+            cerr<<"Error: The matrix must be row-wise compressed"<<endl;
+            exit(1);
+        }
+        vector<T> res(mat.get_n_rows());
+        for(size_t i = 0; i < mat.get_n_rows(); i++){
+            size_t row_start = mat.I[i];
+            size_t row_end = mat.I[i+1];
+            auto it = lower_bound(mat.II.begin() + row_start, mat.II.begin() + row_end, j);
+            if(it != mat.II.begin() + row_end && *it == j){
+                res[i] = mat.V[it - mat.II.begin()];
+            } else{
+                res[i] = 0;
+            }
+        }
+        return res;
+    }*/
 
 
     /*!

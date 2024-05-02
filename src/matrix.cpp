@@ -2,6 +2,8 @@
 
 namespace algebra{
 
+    template class Matrix<int, algebra::StorageOrder::Row_wise>;
+    //template class Matrix<int, algebra::StorageOrder::Column_wise>;
     template class Matrix<double, algebra::StorageOrder::Row_wise>;
     template class Matrix<double, algebra::StorageOrder::Column_wise>;
 
@@ -174,22 +176,6 @@ namespace algebra{
             cerr<<"Invalid Storage Order"<<endl;
             exit(1);
         }
-        /*size_t t = 0;
-        for(size_t k = 0; k < nnz_elem; ++k){
-            Index ij;
-            if(k>=I[k]){
-                ++t;
-            }
-            if(order == StorageOrder::Row_wise){
-                ij = {I[t],II[k]};
-            } else if(order == StorageOrder::Column_wise){
-                ij = {II[k],I[t]};
-            } else{
-            cerr<<"Invalid Storage Order"<<endl;
-            exit(1);
-            }
-            data[ij] = V[k];
-            }*/
         I.clear();
         II.clear();
         V.clear();

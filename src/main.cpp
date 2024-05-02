@@ -59,6 +59,8 @@ int main(){
     timer_n.stop();
     cout<<"Time for norm calculation: "<<timer_n.wallTime()<<" microseconds"<<endl;
 
+   
+
 
     
     return 0;
