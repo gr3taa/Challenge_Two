@@ -1,0 +1,140 @@
+\hypertarget{class_timings_1_1_chrono}{}\doxysection{Timings\+::Chrono Class Reference}
+\label{class_timings_1_1_chrono}\index{Timings::Chrono@{Timings::Chrono}}
+
+
+{\ttfamily \#include $<$chrono.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{class_timings_1_1_chrono_a52805537edad61f0ff0c877e1052429b}{My\+Clock}} = std\+::chrono\+::high\+\_\+resolution\+\_\+clock
+\item 
+using \mbox{\hyperlink{class_timings_1_1_chrono_a121b3a6d4674b7297a95c90df5180021}{My\+Time\+Point}} = std\+::chrono\+::time\+\_\+point$<$ \mbox{\hyperlink{class_timings_1_1_chrono_a52805537edad61f0ff0c877e1052429b}{My\+Clock}} $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_timings_1_1_chrono_aefe8228cdb096ba44351f0cfa729745d}{start}} ()
+\begin{DoxyCompactList}\small\item\em Starts/reset counting time. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_timings_1_1_chrono_a4f3e8cc48b33ec4fa0fe2ef160ca9474}{stop}} ()
+\begin{DoxyCompactList}\small\item\em Stops counting time. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_timings_1_1_chrono_acef7a2d767fe3d44cfa16eca82bffb1c}{wall\+Time}} () const
+\begin{DoxyCompactList}\small\item\em Outputs wall time between last start and stop (in microseconds) \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_timings_1_1_chrono_a5fc55db01e56dd61f9c55fca28e9c186}{wall\+Time\+Now}} () const
+\begin{DoxyCompactList}\small\item\em Outputs wall time between last start and now! (in microseconds) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{class_timings_1_1_chrono_a2b517387193dba843d6ce9a05250a070}{operator$<$$<$}} (std\+::ostream \&, \mbox{\hyperlink{class_timings_1_1_chrono}{Chrono}} const \&)
+\begin{DoxyCompactList}\small\item\em Outputs time from last start and stop. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line 8 of file chrono.\+hpp.
+
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{class_timings_1_1_chrono_a52805537edad61f0ff0c877e1052429b}\label{class_timings_1_1_chrono_a52805537edad61f0ff0c877e1052429b}} 
+\index{Timings::Chrono@{Timings::Chrono}!MyClock@{MyClock}}
+\index{MyClock@{MyClock}!Timings::Chrono@{Timings::Chrono}}
+\doxysubsubsection{\texorpdfstring{MyClock}{MyClock}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{class_timings_1_1_chrono_a52805537edad61f0ff0c877e1052429b}{Timings\+::\+Chrono\+::\+My\+Clock}} =  std\+::chrono\+::high\+\_\+resolution\+\_\+clock}
+
+
+
+Definition at line 11 of file chrono.\+hpp.
+
+\mbox{\Hypertarget{class_timings_1_1_chrono_a121b3a6d4674b7297a95c90df5180021}\label{class_timings_1_1_chrono_a121b3a6d4674b7297a95c90df5180021}} 
+\index{Timings::Chrono@{Timings::Chrono}!MyTimePoint@{MyTimePoint}}
+\index{MyTimePoint@{MyTimePoint}!Timings::Chrono@{Timings::Chrono}}
+\doxysubsubsection{\texorpdfstring{MyTimePoint}{MyTimePoint}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{class_timings_1_1_chrono_a121b3a6d4674b7297a95c90df5180021}{Timings\+::\+Chrono\+::\+My\+Time\+Point}} =  std\+::chrono\+::time\+\_\+point$<$\mbox{\hyperlink{class_timings_1_1_chrono_a52805537edad61f0ff0c877e1052429b}{My\+Clock}}$>$}
+
+
+
+Definition at line 12 of file chrono.\+hpp.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_timings_1_1_chrono_aefe8228cdb096ba44351f0cfa729745d}\label{class_timings_1_1_chrono_aefe8228cdb096ba44351f0cfa729745d}} 
+\index{Timings::Chrono@{Timings::Chrono}!start@{start}}
+\index{start@{start}!Timings::Chrono@{Timings::Chrono}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void Timings\+::\+Chrono\+::start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Starts/reset counting time. 
+
+
+
+Definition at line 31 of file chrono.\+hpp.
+
+\mbox{\Hypertarget{class_timings_1_1_chrono_a4f3e8cc48b33ec4fa0fe2ef160ca9474}\label{class_timings_1_1_chrono_a4f3e8cc48b33ec4fa0fe2ef160ca9474}} 
+\index{Timings::Chrono@{Timings::Chrono}!stop@{stop}}
+\index{stop@{stop}!Timings::Chrono@{Timings::Chrono}}
+\doxysubsubsection{\texorpdfstring{stop()}{stop()}}
+{\footnotesize\ttfamily void Timings\+::\+Chrono\+::stop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Stops counting time. 
+
+
+
+Definition at line 37 of file chrono.\+hpp.
+
+\mbox{\Hypertarget{class_timings_1_1_chrono_acef7a2d767fe3d44cfa16eca82bffb1c}\label{class_timings_1_1_chrono_acef7a2d767fe3d44cfa16eca82bffb1c}} 
+\index{Timings::Chrono@{Timings::Chrono}!wallTime@{wallTime}}
+\index{wallTime@{wallTime}!Timings::Chrono@{Timings::Chrono}}
+\doxysubsubsection{\texorpdfstring{wallTime()}{wallTime()}}
+{\footnotesize\ttfamily double Timings\+::\+Chrono\+::wall\+Time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Outputs wall time between last start and stop (in microseconds) 
+
+
+
+Definition at line 43 of file chrono.\+hpp.
+
+\mbox{\Hypertarget{class_timings_1_1_chrono_a5fc55db01e56dd61f9c55fca28e9c186}\label{class_timings_1_1_chrono_a5fc55db01e56dd61f9c55fca28e9c186}} 
+\index{Timings::Chrono@{Timings::Chrono}!wallTimeNow@{wallTimeNow}}
+\index{wallTimeNow@{wallTimeNow}!Timings::Chrono@{Timings::Chrono}}
+\doxysubsubsection{\texorpdfstring{wallTimeNow()}{wallTimeNow()}}
+{\footnotesize\ttfamily double Timings\+::\+Chrono\+::wall\+Time\+Now (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Outputs wall time between last start and now! (in microseconds) 
+
+
+
+Definition at line 51 of file chrono.\+hpp.
+
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{class_timings_1_1_chrono_a2b517387193dba843d6ce9a05250a070}\label{class_timings_1_1_chrono_a2b517387193dba843d6ce9a05250a070}} 
+\index{Timings::Chrono@{Timings::Chrono}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!Timings::Chrono@{Timings::Chrono}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out,  }\item[{\mbox{\hyperlink{class_timings_1_1_chrono}{Chrono}} const \&}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Outputs time from last start and stop. 
+
+
+
+Definition at line 58 of file chrono.\+hpp.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{chrono_8hpp}{chrono.\+hpp}}\end{DoxyCompactItemize}

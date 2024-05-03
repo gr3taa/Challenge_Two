@@ -1,0 +1,200 @@
+\hypertarget{namespacealgebra}{}\doxysection{algebra Namespace Reference}
+\label{namespacealgebra}\index{algebra@{algebra}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classalgebra_1_1_matrix}{Matrix}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classalgebra_1_1_matrix}{Matrix}} a dynamic matrix class template. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespacealgebra_aafc729377b7e6459edb3f1b9f22fed9e}{Index}} = array$<$ size\+\_\+t, 2 $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacealgebra_af7f291bc9289c8ac99068a8ae4873108}{Storage\+Order}} \{ \mbox{\hyperlink{namespacealgebra_af7f291bc9289c8ac99068a8ae4873108a638c1af661c88e4e42719d6e2a013322}{Row\+\_\+wise}}
+, \mbox{\hyperlink{namespacealgebra_af7f291bc9289c8ac99068a8ae4873108adeb6dda45c20d28784de54f9d6002b82}{Column\+\_\+wise}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enum defining the storage order of the matrix. \end{DoxyCompactList}\item 
+enum class \mbox{\hyperlink{namespacealgebra_a67b8431f9217a8c697b8ac46b1613b2b}{Norm}} \{ \mbox{\hyperlink{namespacealgebra_a67b8431f9217a8c697b8ac46b1613b2ba06c2cea18679d64399783748fa367bdd}{One}}
+, \mbox{\hyperlink{namespacealgebra_a67b8431f9217a8c697b8ac46b1613b2baeb2ac5b04180d8d6011a016aeb8f75b3}{Infinity}}
+, \mbox{\hyperlink{namespacealgebra_a67b8431f9217a8c697b8ac46b1613b2baaa17ea000d1c6e31414adf8083928f30}{Frobenius}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enum defining the type of norm. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T , Storage\+Order ord$>$ }\\bool \mbox{\hyperlink{namespacealgebra_a8c7d61b88fb9341db23ac65cb7ff4ed9}{operator$<$}} (const \mbox{\hyperlink{namespacealgebra_aafc729377b7e6459edb3f1b9f22fed9e}{Index}} \&lhs, const \mbox{\hyperlink{namespacealgebra_aafc729377b7e6459edb3f1b9f22fed9e}{Index}} \&rhs)
+\begin{DoxyCompactList}\small\item\em Comparison operator according to the storage order. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , Storage\+Order order$>$ }\\vector$<$ T $>$ \mbox{\hyperlink{namespacealgebra_a2220e3e2e12836c92c9374b05a2d9d4e}{operator$\ast$}} (const \mbox{\hyperlink{classalgebra_1_1_matrix}{Matrix}}$<$ T, order $>$ \&mat, const vector$<$ T $>$ \&vec)
+\begin{DoxyCompactList}\small\item\em this function does the matrix-\/vector product. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename U , Storage\+Order order$>$ }\\\mbox{\hyperlink{classalgebra_1_1_matrix}{Matrix}}$<$ U, order $>$ \mbox{\hyperlink{namespacealgebra_a268a6dd3067c6efd353c80473d362387}{operator$\ast$}} (const \mbox{\hyperlink{classalgebra_1_1_matrix}{Matrix}}$<$ U, order $>$ \&matl, const \mbox{\hyperlink{classalgebra_1_1_matrix}{Matrix}}$<$ U, order $>$ \&matr)
+\begin{DoxyCompactList}\small\item\em this function does the matrix-\/matrix product. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{namespacealgebra_aafc729377b7e6459edb3f1b9f22fed9e}\label{namespacealgebra_aafc729377b7e6459edb3f1b9f22fed9e}} 
+\index{algebra@{algebra}!Index@{Index}}
+\index{Index@{Index}!algebra@{algebra}}
+\doxysubsubsection{\texorpdfstring{Index}{Index}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespacealgebra_aafc729377b7e6459edb3f1b9f22fed9e}{algebra\+::\+Index}} = typedef array$<$size\+\_\+t,2$>$}
+
+
+
+Definition at line 38 of file matrix.\+hpp.
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{namespacealgebra_a67b8431f9217a8c697b8ac46b1613b2b}\label{namespacealgebra_a67b8431f9217a8c697b8ac46b1613b2b}} 
+\index{algebra@{algebra}!Norm@{Norm}}
+\index{Norm@{Norm}!algebra@{algebra}}
+\doxysubsubsection{\texorpdfstring{Norm}{Norm}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespacealgebra_a67b8431f9217a8c697b8ac46b1613b2b}{algebra\+::\+Norm}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Enum defining the type of norm. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{One@{One}!algebra@{algebra}}\index{algebra@{algebra}!One@{One}}}\mbox{\Hypertarget{namespacealgebra_a67b8431f9217a8c697b8ac46b1613b2ba06c2cea18679d64399783748fa367bdd}\label{namespacealgebra_a67b8431f9217a8c697b8ac46b1613b2ba06c2cea18679d64399783748fa367bdd}} 
+One&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Infinity@{Infinity}!algebra@{algebra}}\index{algebra@{algebra}!Infinity@{Infinity}}}\mbox{\Hypertarget{namespacealgebra_a67b8431f9217a8c697b8ac46b1613b2baeb2ac5b04180d8d6011a016aeb8f75b3}\label{namespacealgebra_a67b8431f9217a8c697b8ac46b1613b2baeb2ac5b04180d8d6011a016aeb8f75b3}} 
+Infinity&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Frobenius@{Frobenius}!algebra@{algebra}}\index{algebra@{algebra}!Frobenius@{Frobenius}}}\mbox{\Hypertarget{namespacealgebra_a67b8431f9217a8c697b8ac46b1613b2baaa17ea000d1c6e31414adf8083928f30}\label{namespacealgebra_a67b8431f9217a8c697b8ac46b1613b2baaa17ea000d1c6e31414adf8083928f30}} 
+Frobenius&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line 32 of file matrix.\+hpp.
+
+\mbox{\Hypertarget{namespacealgebra_af7f291bc9289c8ac99068a8ae4873108}\label{namespacealgebra_af7f291bc9289c8ac99068a8ae4873108}} 
+\index{algebra@{algebra}!StorageOrder@{StorageOrder}}
+\index{StorageOrder@{StorageOrder}!algebra@{algebra}}
+\doxysubsubsection{\texorpdfstring{StorageOrder}{StorageOrder}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespacealgebra_af7f291bc9289c8ac99068a8ae4873108}{algebra\+::\+Storage\+Order}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Enum defining the storage order of the matrix. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Row\_wise@{Row\_wise}!algebra@{algebra}}\index{algebra@{algebra}!Row\_wise@{Row\_wise}}}\mbox{\Hypertarget{namespacealgebra_af7f291bc9289c8ac99068a8ae4873108a638c1af661c88e4e42719d6e2a013322}\label{namespacealgebra_af7f291bc9289c8ac99068a8ae4873108a638c1af661c88e4e42719d6e2a013322}} 
+Row\+\_\+wise&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Column\_wise@{Column\_wise}!algebra@{algebra}}\index{algebra@{algebra}!Column\_wise@{Column\_wise}}}\mbox{\Hypertarget{namespacealgebra_af7f291bc9289c8ac99068a8ae4873108adeb6dda45c20d28784de54f9d6002b82}\label{namespacealgebra_af7f291bc9289c8ac99068a8ae4873108adeb6dda45c20d28784de54f9d6002b82}} 
+Column\+\_\+wise&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line 24 of file matrix.\+hpp.
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacealgebra_a2220e3e2e12836c92c9374b05a2d9d4e}\label{namespacealgebra_a2220e3e2e12836c92c9374b05a2d9d4e}} 
+\index{algebra@{algebra}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!algebra@{algebra}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T , Storage\+Order order$>$ \\
+vector$<$T$>$ algebra\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classalgebra_1_1_matrix}{Matrix}}$<$ T, order $>$ \&}]{mat,  }\item[{const vector$<$ T $>$ \&}]{vec }\end{DoxyParamCaption})}
+
+
+
+this function does the matrix-\/vector product. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & is the type of elements. \\
+\hline
+{\em order} & is the storage order of the matrix. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & is the matrix that we want to multiply. \\
+\hline
+{\em vec} & is the vector that we want to multiply. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the matrix-\/vector product. 
+\end{DoxyReturn}
+
+
+Definition at line 126 of file matrix.\+hpp.
+
+\mbox{\Hypertarget{namespacealgebra_a268a6dd3067c6efd353c80473d362387}\label{namespacealgebra_a268a6dd3067c6efd353c80473d362387}} 
+\index{algebra@{algebra}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!algebra@{algebra}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename U , Storage\+Order order$>$ \\
+\mbox{\hyperlink{classalgebra_1_1_matrix}{Matrix}}$<$U,order$>$ algebra\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classalgebra_1_1_matrix}{Matrix}}$<$ U, order $>$ \&}]{matl,  }\item[{const \mbox{\hyperlink{classalgebra_1_1_matrix}{Matrix}}$<$ U, order $>$ \&}]{matr }\end{DoxyParamCaption})}
+
+
+
+this function does the matrix-\/matrix product. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & is the type of elements. \\
+\hline
+{\em order} & is the storage order of the matrix. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & is the matrix that we want to multiply. \\
+\hline
+{\em mat1} & is the matrix that we want to multiply. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the matrix-\/matrix product. 
+\end{DoxyReturn}
+
+
+Definition at line 170 of file matrix.\+hpp.
+
+\mbox{\Hypertarget{namespacealgebra_a8c7d61b88fb9341db23ac65cb7ff4ed9}\label{namespacealgebra_a8c7d61b88fb9341db23ac65cb7ff4ed9}} 
+\index{algebra@{algebra}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!algebra@{algebra}}
+\doxysubsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily template$<$typename T , Storage\+Order ord$>$ \\
+bool algebra\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespacealgebra_aafc729377b7e6459edb3f1b9f22fed9e}{Index}} \&}]{lhs,  }\item[{const \mbox{\hyperlink{namespacealgebra_aafc729377b7e6459edb3f1b9f22fed9e}{Index}} \&}]{rhs }\end{DoxyParamCaption})}
+
+
+
+Comparison operator according to the storage order. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & is the type of elements. \\
+\hline
+{\em order} & is the storage order of the matrix. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em lhs} & is the first index. \\
+\hline
+{\em rhs} & is the second index. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if lhs is less than rhs, false otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 105 of file matrix.\+hpp.
+

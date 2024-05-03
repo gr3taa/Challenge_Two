@@ -1,9 +1,11 @@
 CC = g++
-CXXFLAGS = -std=c++20 -Wall 
+CXXFLAGS = -std=c++20  
+CPPFLAGS = -Wall -O3 -I include
 
-DOXYFILE=../../pacs-examples/Examples/DoxyfileCommon
-SRCS = src/main.cpp src/matrix.cpp 
-HDRS = src/matrix.hpp
+
+DOXYFILE= Doxyfile
+SRCS = src/main.cpp  
+HDRS = src/matrix.hpp src/function_implementation.hpp
 
 OBJS = $(SRCS:.cpp=.o) 
 

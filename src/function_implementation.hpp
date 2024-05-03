@@ -2,14 +2,11 @@
 
 namespace algebra{
 
-    template class Matrix<int, algebra::StorageOrder::Row_wise>;
-    //template class Matrix<int, algebra::StorageOrder::Column_wise>;
-    template class Matrix<double, algebra::StorageOrder::Row_wise>;
-    template class Matrix<double, algebra::StorageOrder::Column_wise>;
+//01sparse matrix
 
-
-    /*!
+    /**
     * @brief Check if i and j are whitin the range of the matrix.
+    *
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
     * @param i is the index of the row.
@@ -21,7 +18,7 @@ namespace algebra{
         return i <= n_rows && j <= n_cols;
     }
 
-    /*!
+    /**
     * @brief This function calculates the number of non zero elements of the matrix.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -32,7 +29,7 @@ namespace algebra{
         return data.size();
     }
 
-    /*!
+    /**
     * @brief This function checks if the matrix is compressed or not.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -44,7 +41,7 @@ namespace algebra{
     }
 
     //TOREview
-    /*!
+    /**
     * @brief resizing the matrix.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -87,7 +84,7 @@ namespace algebra{
         n_cols = j;
     }
 
-    /*!
+    /**
     * @brief Converting the internal storage from a map to a compresses sparse row on comlumns depending on order.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -142,7 +139,7 @@ namespace algebra{
         
 
 
-    /*!
+    /**
     * @brief Bringing back the matrix to the uncompressed state.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -171,7 +168,6 @@ namespace algebra{
                 Index ij = {II[k],t};
                 data[ij] = V[k];
             }
-            cout<<data.size()<<endl;
         } else{
             cerr<<"Invalid Storage Order"<<endl;
             exit(1);
@@ -183,7 +179,7 @@ namespace algebra{
         
     }
 
-    /*!
+    /**
     * @brief Overloading call operator
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -233,7 +229,7 @@ namespace algebra{
     }
 
 
-    /*!
+    /**
     * @brief Overloading call operator.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -266,7 +262,7 @@ namespace algebra{
         }
     }
     
-    /*!
+    /**
     * @brief Get the number of rows of the matrix.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -277,7 +273,7 @@ namespace algebra{
         return n_rows;
     }
 
-    /*!
+    /**
     * @brief Get the number of columns of the matrix.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -288,7 +284,7 @@ namespace algebra{
         return n_cols;
     }
 
-    /*!
+    /**
     * @brief Get the number of non zero elements of the matrix.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -299,7 +295,7 @@ namespace algebra{
         return nnz_elem;
     }
 
-    /*!
+    /**
     * @brief Set the number of non zero elements of the matrix.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -310,25 +306,25 @@ namespace algebra{
         nnz_elem = nnz;
     }
 
-    /*!
-    * @brief this function computes the one norm.
+    /**
+    * @brief this function computes the infinity norm.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
     * @param mat the matrix of which we want to calculate the norm.
     * @return the one norm.
     */
     template <typename T, StorageOrder order>
-    T Matrix<T,order>::norm_one() const{
+    T Matrix<T,order>::norm_infinity() const{
         T res = 0;
         if(!is_compressed()){
-            for(size_t j = 0; j < n_cols; ++j){
+            for(size_t i = 0; i < n_rows; ++i){
                 T sum = 0;
-                for(size_t i = 0; i < n_rows; ++i){
+                for(size_t j = 0; j < n_cols; ++j){
                     sum += abs((*this)(i,j));
                 }
                 if(sum > res)
                     res = sum;
-            }
+            }            
         }else if (order == StorageOrder::Column_wise){
             vector<T> sum(n_rows,0);
             for(size_t k = 0; k < nnz_elem; ++k){
@@ -348,29 +344,28 @@ namespace algebra{
             cerr<<"Error: Storage order not recognized"<<endl;
             exit(1);
         }
-        cout<<"The one norm is: "<<res<<endl;
+        cout<<"The infinity norm is: "<<res<<endl;
         return res;
     }
-    /*!
-    * @brief this function computes the infinity norm.
+    /**
+    * @brief this function computes the one norm.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
     * @param mat the matrix of which we want to calculate the norm.
-    * @return the infinity norm.
+    * @return the one norm.
     */
     template <typename T, StorageOrder order>
-    T Matrix<T,order>::norm_infinity() const{
+    T Matrix<T,order>::norm_one() const{
         T res = 0;
         if(!is_compressed()){
-            for(size_t i = 0; i < n_rows; ++i){
+            for(size_t j = 0; j < n_cols; ++j){
                 T sum = 0;
-                for(size_t j = 0; j < n_cols; ++j){
+                for(size_t i = 0; i < n_rows; ++i){
                     sum += abs((*this)(i,j));
                 }
                 if(sum > res)
                     res = sum;
-            }
-            
+            }            
         }else if (order == StorageOrder::Row_wise){
             vector<T> sum(n_rows,0);
                 for(size_t k = 0; k < nnz_elem; ++k){
@@ -390,11 +385,11 @@ namespace algebra{
             cerr<<"Error: Storage order not recognized"<<endl;
             exit(1);
         }
-        cout<<"The infinity norm is: "<<res<<endl;
+        cout<<"The one norm is: "<<res<<endl;
         return res;
     }
 
-    /*!
+    /**
     * @brief this function computes the frobenius norm.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -419,7 +414,7 @@ namespace algebra{
         return res;
     }
     
-    /*!
+    /**
     * @brief this function calculates the norm of the matrix.
     * @tparam U is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -428,9 +423,9 @@ namespace algebra{
     * @return the norm of the matrix.
     */
     template<typename T, StorageOrder ord>
-    //template<Norm n>
-    T Matrix<T,ord>::norm(Norm n) const{
-        if(n == Norm::One){
+    template<Norm n>
+    T Matrix<T,ord>::norm() const{
+        if (n == Norm::One){
             return norm_one();
         } else if(n == Norm::Infinity){
             return norm_infinity();
@@ -477,7 +472,7 @@ namespace algebra{
         }   
     }
 
-    /*!
+    /**
     * @brief this function reads the matrix written in matrix market format.
     * @tparam T is the type of elements.
     * @tparam order is the storage order of the matrix.
@@ -513,5 +508,111 @@ namespace algebra{
         }
         set_nnz(nnz_elem);
     }
+
+    
+    /**
+    * @brief Comparison operator according to the storage order.
+    * @tparam T is the type of elements.
+    * @tparam order is the storage order of the matrix.
+    * @param lhs is the first index.
+    * @param rhs is the second index.
+    * @return true if lhs is less than rhs, false otherwise.
+    */
+    template<typename T, StorageOrder ord>
+    bool operator<(const Index & lhs, const Index & rhs){
+        if(ord == StorageOrder::Column_wise){
+            return lhs[1] < rhs[1] || (lhs[1] == rhs[1] && lhs[0] < rhs[0]);
+        }
+        else if(ord == StorageOrder::Row_wise){
+            return lhs[0] < rhs[0] || (lhs[0] == rhs[0] && lhs[1] < rhs[1]);
+        } else{
+            cerr<<"Error: Storage order not recognized"<<endl;
+            exit(1);
+        }
+    }
+
+    /**
+    * @brief this function does the matrix-vector product.
+    * @tparam T is the type of elements.
+    * @tparam order is the storage order of the matrix.
+    * @param mat is the matrix that we want to multiply.
+    * @param vec is the vector that we want to multiply.
+    * @return the result of the matrix-vector product.
+    */
+    template<typename T, StorageOrder order>
+    vector<T> operator*(const Matrix<T,order> & mat, const vector<T> & vec){
+        vector<T> res(mat.n_rows);
+        if(mat.is_compressed()){
+            if(order == StorageOrder::Row_wise){
+                for(size_t i = 0; i < mat.n_rows; i++){
+                    T sum = 0;
+                    for(size_t j = mat.I[i]; j < mat.I[i+1]; j++){
+                        sum += mat.V[j]*vec[mat.II[j]];
+                    }
+                    res[i] = sum;
+                }
+            }else if(order == StorageOrder::Column_wise){
+                for(size_t j = 0; j < mat.n_cols; j++){
+                    T sum = 0;
+                    for(size_t i = mat.I[j]; i < mat.I[j+1]; i++){
+                        sum += mat.V[i]*vec[mat.II[i]];
+                    }
+                    res[j] = sum;
+                }
+            } else{
+                cerr<<"Error: Storage order not recognized"<<endl;
+                exit(1);
+            }
+        } else{
+            for(size_t i = 0; i < mat.n_rows; i++){
+                T sum = 0;
+                for(size_t j = 0; j < mat.n_cols; j++){
+                    sum += mat(i,j)*vec[j];
+                }
+                res[i] = sum;
+            }
+        }
+        return res;
+    }
+
+    /**
+    * @brief this function does the matrix-matrix  product.
+    * @tparam T is the type of elements.
+    * @tparam order is the storage order of the matrix.
+    * @param mat is the matrix that we want to multiply.
+    * @param mat1 is the matrix that we want to multiply.
+    * @return the result of the matrix-matrix product.
+    */
+    template<typename U, StorageOrder order>
+    Matrix<U,order> operator*(const Matrix<U,order> & matl, const Matrix<U,order> & matr){
+        if(matl.get_n_cols() != matr.get_n_rows()){
+            cerr<<"Error: The number of columns of the left matrix must be equal to the number of rows of the right matrix"<<endl;
+            exit(1);
+        }
+        if(matl.is_compressed() != matr.is_compressed()){
+            cerr<<"Error: The matrices must have the same storage order"<<endl;
+            exit(1);
+        }
+        if(!matl.is_compressed()){
+            Matrix<U,order> res(matl.get_n_rows(), matr.get_n_cols());
+            for(size_t i = 0; i < matl.get_n_rows(); ++i)
+                for(size_t j = 0; j < matr.get_n_cols(); ++j)
+                    for(size_t k = 0; k < matr.get_n_rows(); ++k)
+                        res(i,j) += matl(i,k) * matr(k,j);
+            return res;
+        } /*else if (order == StorageOrder::Row_wise){
+                    Matrix<U,order> res(matl.get_n_rows(),matr.get_n_cols());
+                    vector<U> vec(matr.get_n_rows());
+                    for(size_t j = 0; j < matr.get_n_cols(); ++j){
+                        // jth column of matr
+                        vector<U> vec = get_col(matr,j);
+                        for(size_t i = 0; i < matl.get_n_rows(); ++i){
+                            size_t row_starts = matl.I[i];
+                            res(i,j) = inner_product(vec.begin(), vec.end(), matl.V.cbegin() + row_starts, U(0));
+                        }   
+                    }
+                    return res;
+        }*/
+    }  
 
 }
