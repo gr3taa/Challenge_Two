@@ -20,7 +20,7 @@ In the folder `src` there is:
 + [main.cpp](https://github.com/gr3taa/Challenge_Two/blob/main/src/main.cpp)
 
 In the folder `include` there are:
-+ [matrix.hpp](https://github.com/gr3taa/Challenge_Two/blob/main/include/matrix.hpp)
++ [matrix_class.hpp](https://github.com/gr3taa/Challenge_Two/blob/main/include/matrix_class.hpp)
 + [function_implementation.hpp](https://github.com/gr3taa/Challenge_Two/blob/main/include/function_implementation.hpp)
 + [friend_functions.hpp](https://github.com/gr3taa/Challenge_Two/blob/main/include/friend_functions.hpp)
 + [Doxyfile](https://github.com/gr3taa/Challenge_Two/blob/main/include/Doxyfile)
