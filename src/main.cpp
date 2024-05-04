@@ -1,10 +1,9 @@
-#include "matrix.hpp"
+#include "matrix_class.hpp"
 #include "chrono.hpp"
 #include <iostream>
 using namespace std;
 using namespace algebra;
 using namespace Timings;
-
 
 void print_vector(const vector<double>& vec){
     for(auto i: vec){
@@ -15,8 +14,23 @@ void print_vector(const vector<double>& vec){
 
 
 int main(){
-    Matrix<double, StorageOrder::Column_wise> mat(0,0);
-    mat.read_matrix("lnsp_131.mtx");
+    ifstream file("file/input.txt");
+    string order, norm_type;
+    if(!file.is_open()){
+        cout<<"File not found"<<endl;
+        return 0;
+    }
+    getline(file, order);
+    getline(file, norm_type);
+    Matrix<double, StorageOrder::Row_wise> mat(0,0);
+    if(order == "Column_wise"){
+        Matrix<double, StorageOrder::Column_wise> mat(0,0);
+    } else if(order != "Row_wise" ){
+        cout<<"Invalid storage order"<<endl;
+        return 0;
+    } 
+    
+    mat.read_matrix("file/lnsp_131.mtx");
     vector<double> vec(mat.get_n_cols(),2.0);
 
     // matrix-vector product (uncompressed version)
@@ -24,7 +38,7 @@ int main(){
     cout<<"Matrix-vector product (uncompressed version)"<<endl;
     Chrono timer_pu;
     timer_pu.start();
-    vector<double> resp = mat*vec;
+    vector<double> resp = algebra::operator*(mat, vec);
     timer_pu.stop();
     cout<<"Result of the matrix-vector product: "<<endl;
     print_vector(resp);
@@ -35,7 +49,17 @@ int main(){
     cout<<"Norm"<<endl;
     Chrono timer_nu;
     timer_nu.start();
-    double norm_u = mat.norm<Norm::One>();
+    double norm_u;
+    if(norm_type == "One"){
+        norm_u = mat.norm<Norm::One>();
+    } else if(norm_type == "Infinity"){
+        norm_u = mat.norm<Norm::Infinity>();
+    } else if(norm_type == "Frobenius"){
+        norm_u = mat.norm<Norm::Frobenius>();
+    } else {
+        cout<<"Invalid norm type"<<endl;
+        return 0;
+    }
     timer_nu.stop();
     cout<<"Time for norm calculation (uncompressed version): "<<timer_nu.wallTime()<<" microseconds"<<endl;
 
@@ -53,7 +77,7 @@ int main(){
     cout<<"Matrix-vector product (compressed version)"<<endl;
     Chrono timer_p;
     timer_p.start();
-    vector<double> res = mat*vec;
+    vector<double> res = algebra::operator*(mat, vec);
     timer_p.stop();
     cout<<"Result of the matrix-vector product: "<<endl;
     print_vector(res);
@@ -61,12 +85,23 @@ int main(){
 
     //norm (compressed version)
     cout<<"\n--------------------------------------------------------------------------------------------------------------------"<<endl;
-    cout<<"Norm"<<endl;
+    cout<<"Norm (compressed version)"<<endl;
+    //mat.print_compressed_matrix();
     Chrono timer_n;
     timer_n.start();
-    double norm = mat.norm<Norm::One>();
+    double norm ;
+    if (norm_type == "One"){
+        norm = mat.norm<Norm::One>();
+    } else if(norm_type == "Infinity"){
+        norm = mat.norm<Norm::Infinity>();
+    } else if(norm_type == "Frobenius"){
+        norm = mat.norm<Norm::Frobenius>();
+    } else {
+        cout<<"Invalid norm type"<<endl;
+        return 0;
+    }
     timer_n.stop();
-    cout<<norm_u<<"Time for norm calculation (compressed version): "<<timer_n.wallTime()<<" microseconds"<<endl;
+    cout<<"Time for norm calculation (compressed version): "<<timer_n.wallTime()<<" microseconds"<<endl;
 
 
     //uncompress
@@ -79,37 +114,6 @@ int main(){
     cout<<"Time for uncompression: "<<timer_u.wallTime()<<" microseconds"<<endl;
 
 
-    
-/*
-    Matrix<int,StorageOrder::Row_wise> A(3,3);
-    Matrix<int, StorageOrder::Row_wise> B(3,2);
-    A(0,0)=1;
-    //A(0,1)=2;
-    A(0,2)=2;
-    A(1,0)=3;
-    A(1,1)=4;
-    //A(1,2)=6;
-    //A(2,0)=7;
-    //A(2,1)=8;
-    A(2,2)=9;
-    //A.print_matrix();
-    cout<<"norm un"<<A.norm<Norm::Infinity>()<<endl;
-    A.compress();
-    cout<<"norm c"<<A.norm<Norm::Infinity>()<<endl;
-*/
-    /*B(0,0)=2;
-    B(1,1)=5;
-    B(2,0)=6;
-    A.compress();
-    B.compress();
-    cout<<"Matrix A"<<endl;
-    A.print_compressed_matrix();
-    cout<<"Matrix B"<<endl;
-    B.print_compressed_matrix();
-    Matrix<int,StorageOrder::Row_wise> r = A * B;
-    cout<<"Matrix r"<<endl;
-    r.print_matrix();
-*/
     
     return 0;
 };

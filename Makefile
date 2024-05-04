@@ -3,9 +3,9 @@ CXXFLAGS = -std=c++20
 CPPFLAGS = -Wall -O3 -I include
 
 
-DOXYFILE= Doxyfile
+DOXYFILE= include/Doxyfile
 SRCS = src/main.cpp  
-HDRS = src/matrix.hpp src/function_implementation.hpp
+HDRS = include/matrix.hpp include/function_implementation.hpp include/friend_functions
 
 OBJS = $(SRCS:.cpp=.o) 
 
