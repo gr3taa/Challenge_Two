@@ -1,0 +1,13 @@
+- Documentation is clear and complete
+
+- some warnings in the compilation 
+    - see main.cpp
+    - the in the call operators you should always return something
+   
+- uncompress() does not work with column wise storage
+
+- resize() does not modify the matrix 
+    
+- no test with complex numbers
+
+- a lot of code duplication in the implementation of the methods for different storage order

@@ -14,6 +14,74 @@ void print_vector(const vector<double>& vec){
 
 
 int main(){
+
+    // test with small matrices
+    std::cout << "-----------------------------------------------------------------------------------" << std::endl;
+    std::cout << "small matrices - row" << std::endl;
+    std::cout << "-----------------------------------------------------------------------------------" << std::endl;
+    
+    Matrix<double, StorageOrder::Row_wise> M(3,3);
+    M(0,0) = 2.0;
+    M(1,1) = 3.0;
+    M(2,2) = 4.0;
+
+    std::vector<double> V = {1.0,1.0,1.0};
+    
+    M.norm<Norm::One>();
+    M.norm<Norm::Infinity>();
+    M.norm<Norm::Frobenius>();
+
+    std::cout << "product: ";
+    print_vector(M*V);
+
+    M.print_matrix();
+    std::cout << "-----------------------------------------------------------------------------------" << std::endl;
+    M.compress();
+    M.print_compressed_matrix();
+    std::cout << "-----------------------------------------------------------------------------------" << std::endl;
+    M.uncompress();
+    M.print_matrix();
+    std::cout << "-----------------------------------------------------------------------------------" << std::endl;
+    M.resize(2,2);
+    M.print_matrix();
+    std::cout << "-----------------------------------------------------------------------------------" << std::endl;
+    M.resize(5,5);
+    M.print_matrix();
+    std::cout << "-----------------------------------------------------------------------------------" << std::endl;
+ 
+    std::cout << "-----------------------------------------------------------------------------------" << std::endl;
+    std::cout << "small matrices - col" << std::endl;
+    std::cout << "-----------------------------------------------------------------------------------" << std::endl;
+    
+    Matrix<double, StorageOrder::Column_wise> Mc(3,3);
+    Mc(0,0) = 2.0;
+    Mc(1,1) = 3.0;
+    Mc(2,2) = 4.0;
+
+    Mc.norm<Norm::One>();
+    Mc.norm<Norm::Infinity>();
+    Mc.norm<Norm::Frobenius>();
+
+    std::cout << "product: ";
+    print_vector(Mc*V);
+
+    Mc.print_matrix();
+    std::cout << "-----------------------------------------------------------------------------------" << std::endl;
+    Mc.compress();
+    Mc.print_compressed_matrix();
+    std::cout << "-----------------------------------------------------------------------------------" << std::endl;
+    Mc.uncompress();
+    Mc.print_matrix();
+    std::cout << "-----------------------------------------------------------------------------------" << std::endl;
+    Mc.resize(2,2);
+    Mc.print_matrix();
+    std::cout << "-----------------------------------------------------------------------------------" << std::endl; 
+    Mc.resize(5,5);
+    Mc.print_matrix();
+    std::cout << "-----------------------------------------------------------------------------------" << std::endl; 
+
+    // end test with small matrices
+
     ifstream file("file/input.txt");
     string order, norm_type;
     if(!file.is_open()){
@@ -22,6 +90,8 @@ int main(){
     }
     getline(file, order);
     getline(file, norm_type);
+
+    // Here you don't need to store both types of matrices
     Matrix<double, StorageOrder::Row_wise> mat(0,0);
     if(order == "Column_wise"){
         Matrix<double, StorageOrder::Column_wise> mat(0,0);
@@ -49,13 +119,13 @@ int main(){
     cout<<"Norm"<<endl;
     Chrono timer_nu;
     timer_nu.start();
-    double norm_u;
+    //double norm_u;       // no need for storing the output in a variable
     if(norm_type == "One"){
-        norm_u = mat.norm<Norm::One>();
+        mat.norm<Norm::One>();
     } else if(norm_type == "Infinity"){
-        norm_u = mat.norm<Norm::Infinity>();
+        mat.norm<Norm::Infinity>();
     } else if(norm_type == "Frobenius"){
-        norm_u = mat.norm<Norm::Frobenius>();
+        mat.norm<Norm::Frobenius>();
     } else {
         cout<<"Invalid norm type"<<endl;
         return 0;
@@ -89,13 +159,13 @@ int main(){
     //mat.print_compressed_matrix();
     Chrono timer_n;
     timer_n.start();
-    double norm ;
+    //double norm ;       // no need for storing the output in a variable
     if (norm_type == "One"){
-        norm = mat.norm<Norm::One>();
+        mat.norm<Norm::One>();
     } else if(norm_type == "Infinity"){
-        norm = mat.norm<Norm::Infinity>();
+        mat.norm<Norm::Infinity>();
     } else if(norm_type == "Frobenius"){
-        norm = mat.norm<Norm::Frobenius>();
+        mat.norm<Norm::Frobenius>();
     } else {
         cout<<"Invalid norm type"<<endl;
         return 0;
